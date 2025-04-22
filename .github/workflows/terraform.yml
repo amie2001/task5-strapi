@@ -32,7 +32,7 @@ jobs:
         working-directory: terraform/
 
       - name: Terraform Destroy (optional)
-        run: terraform destroy -auto-approve
+        run: terraform destroy -auto-approve -var="image_tag=${{ env.IMAGE_TAG }}"
         working-directory: terraform/
 
       - name: Terraform Plan
