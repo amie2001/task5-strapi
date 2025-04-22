@@ -34,6 +34,3 @@ jobs:
       - name: Push Docker image to ECR
         run: |
           docker push ${{ secrets.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
-
-      - name: Show image tag in logs
-        run: echo "Image pushed with tag: ${{ env.IMAGE_TAG }}"
