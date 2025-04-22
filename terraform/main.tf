@@ -35,6 +35,10 @@ resource "aws_instance" "strapi_task4" {
   associate_public_ip_address = true
   security_groups             = [aws_security_group.strapi_sg_task4.name]
 
+
+  iam_instance_profile = "EC2ECRAccessRole"
+
+
  user_data = <<-EOF
     #!/bin/bash
     apt-get update -y
