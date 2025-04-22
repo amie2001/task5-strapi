@@ -1,9 +1,6 @@
 name: Terraform CI/CD
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 jobs:
@@ -19,6 +16,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Set IMAGE_TAG from commit SHA
+        run: echo "IMAGE_TAG=strapi-${GITHUB_SHA::7}" >> $GITHUB_ENV
+
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
         with:
@@ -29,7 +29,7 @@ jobs:
         working-directory: terraform/
 
       - name: Terraform Plan
-        run: terraform plan -out=tfplan
+        run: terraform plan -out=tfplan -var="image_tag=${{ env.IMAGE_TAG }}"
         working-directory: terraform/
 
       - name: Terraform Apply
