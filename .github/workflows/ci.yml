@@ -40,7 +40,8 @@ jobs:
         run: echo "${{ env.IMAGE_TAG }}" > image_tag.txt
 
       - name: Upload image tag artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3.1.2
+
         with:
           name: image-tag
           path: image_tag.txt
