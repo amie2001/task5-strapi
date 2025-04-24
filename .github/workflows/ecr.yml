@@ -3,7 +3,7 @@ name: CI - Build and Push to ECR
 on:
   push:
     branches:
-      - main
+      - task5
 
 jobs:
   build-and-push:
