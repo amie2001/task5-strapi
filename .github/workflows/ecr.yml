@@ -43,6 +43,7 @@ jobs:
           echo "Building Docker image with region: ${{ secrets.AWS_REGION }}"
           docker build -t ${{ secrets.ECR_REPOSITORY_URI }}:latest .
 
+
       - name: Push Docker Image to Amazon ECR
         run: |
           echo "Pushing Docker image..."
