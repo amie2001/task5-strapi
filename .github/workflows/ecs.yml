@@ -1,27 +1,29 @@
-name: Deploy to ECS
+name: Deploy to ECS Fargate
 
 on:
   workflow_run:
-    workflows: ["Build and Push to ECR"]
+    workflows: ["Build and Push ECR Image"]
     types:
       - completed
 
 jobs:
   deploy-to-ecs:
+    name: Deploy to ECS
     runs-on: ubuntu-latest
-
     steps:
-      - name: Check out the code
-        uses: actions/checkout@v2
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-      - name: Set up AWS CLI
-        uses: aws-actions/configure-aws-credentials@v1
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-south-1
+          aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Deploy to ECS Fargate
+      - name: Update ECS Service
         run: |
-          # Update the ECS service
-          ecs-cli compose --project-name strapi-app service up --create-log-groups --cluster strapi-app-cluster
+          aws ecs update-service \
+            --cluster strapi-app-cluster \
+            --service strapi-app-service \
+            --force-new-deployment
