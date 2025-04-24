@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - task5
-
 permissions:
   contents: read
   actions: read
@@ -29,10 +28,13 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Debug ECR URI
+        run: echo ${{ secrets.ECR_REPOSITORY_URI }}
+
       - name: Build Docker Image
         run: |
           docker build -t ${{ secrets.ECR_REPOSITORY_URI }}:latest .
-      
+
       - name: Push Docker Image to Amazon ECR
         run: |
           docker push ${{ secrets.ECR_REPOSITORY_URI }}:latest
