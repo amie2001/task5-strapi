@@ -3,7 +3,7 @@ name: Build and Push ECR Image
 on:
   push:
     branches:
-      - main
+      - task5
 
 permissions:
   contents: read
