@@ -1,39 +1,38 @@
-name: Build and Push to ECR
+name: Build and Push ECR Image
 
 on:
   push:
     branches:
-      - task5  # Trigger the workflow on pushes to the main branch
-      
+      - task5
+
 permissions:
   contents: read
   actions: read
 
 jobs:
-  build:
+  build-and-push:
+    name: Build and Push ECR
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Set up AWS credentials
+      - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-south-1  # Ensure the region is set here
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Log in to Amazon ECR
+        id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
-        with:
-          region: ap-south-1  # Ensure the region is set here
-          
 
-      - name: Build Docker image
+      - name: Build Docker Image
         run: |
-          docker build -t ${{ secrets.ECR_REPO_URL }}:${{ github.sha }} .
+          docker build -t ${{ secrets.ECR_REPOSITORY }}:latest .
 
-      - name: Push Docker image to ECR
+      - name: Push Docker Image to Amazon ECR
         run: |
-          docker push ${{ secrets.ECR_REPO_URL }}:${{ github.sha }}
+          docker push ${{ secrets.ECR_REPOSITORY }}:latest
