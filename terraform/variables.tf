@@ -1,4 +1,4 @@
-variable "aws_region" {
+variable "region" {
   description = "AWS region"
   default     = "ap-south-1"  # Mumbai Region
 }
