@@ -39,6 +39,8 @@ resource "aws_ecs_task_definition" "strapi" {
 
   execution_role_arn = "arn:aws:iam::864899875002:role/ecsTaskExecutionRole"
   task_role_arn      = "arn:aws:iam::864899875002:role/ecsTaskExecutionRole"
+
+  depends_on = [aws_cloudwatch_log_group.ecs_logs]
 }
 
 # ECS Service (Fargate)
