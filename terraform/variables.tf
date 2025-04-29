@@ -12,3 +12,9 @@ variable "image_uri" {
   description = "URI of the Docker image in ECR"
   type        = string
 }
+
+variable "project_name" {
+  description = "Name of the project for tagging and resource naming"
+  type        = string
+  default     = "strapi-app"
+}
