@@ -13,7 +13,7 @@ resource "null_resource" "docker_build_push" {
   provisioner "local-exec" {
     command = <<EOT
       docker build -t ${aws_ecr_repository.strapi_app.repository_url}:latest /home/ubuntu/strapi-application
-      aws ecr get-login-password --region ${var.aws_region} | docker login --username AWS --password-stdin ${aws_ecr_repository.strapi_app.repository_url}
+      aws ecr get-login-password --region ${var.region} | docker login --username AWS --password-stdin ${aws_ecr_repository.strapi_app.repository_url}
       docker push ${aws_ecr_repository.strapi_app.repository_url}:latest
     EOT
   }
