@@ -27,7 +27,15 @@ resource "aws_ecs_task_definition" "strapi" {
       { name = "HOST", value = "0.0.0.0" },
       { name = "PORT", value = "1337" }
     ]
-  }])
+    logConfiguration = {
+    logDriver = "awslogs"
+    options = {
+      awslogs-group         = "/ecs/${var.project_name}"
+      awslogs-region        = var.region
+      awslogs-stream-prefix = "ecs"
+    }
+  }
+}])
 
   execution_role_arn = "arn:aws:iam::864899875002:role/ecsTaskExecutionRole"
   task_role_arn      = "arn:aws:iam::864899875002:role/ecsTaskExecutionRole"
